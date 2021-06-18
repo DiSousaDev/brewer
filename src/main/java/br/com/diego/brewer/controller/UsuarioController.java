@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/clientes")
-public class ClienteController {
+@RequestMapping("/usuarios")
+public class UsuarioController {
 
 	
 	@RequestMapping("/cadastrar")
 	public String abrirPagina() {
-		return "cliente/cadastro";
+		return "usuario/cadastro";
 	}
 	
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
@@ -23,8 +23,8 @@ public class ClienteController {
 		if (result.hasErrors()) {
 			return abrirPagina(); 
 		}
-		attr.addFlashAttribute("mensagem", "Cliente cadastrado com sucesso!");
-		return "redirect:/clientes/cadastrar";
+		attr.addFlashAttribute("mensagem", "Usuario salvo com sucesso!");
+		return "redirect:/usuarios/cadastrar";
 	}
 	
 }
