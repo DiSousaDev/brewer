@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html
-		lang="pt-BR"
-		xmlns:th="http://www.thymeleaf.org"
-		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,12 +7,12 @@
 
 <title>Brewer</title>
 
-<link rel="stylesheet" type="text/css" href="/layout/stylesheets/vendors.min.css">
-<link rel="stylesheet" type="text/css" href="/layout/stylesheets/algaworks.min.css">
-<link rel="stylesheet" type="text/css" href="/layout/stylesheets/application.css">
-<link rel="stylesheet" type="text/css" href="/css/brewer.css">
+<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/vendors.min.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/algaworks.min.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/application.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/brewer.css}"/>
 
-<link rel="shortcut icon" href="/layout/images/favicon.png">
+<link rel="shortcut icon" th:href="@{/layout/images/favicon.png}"/>
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -42,10 +39,10 @@
 	<!-- Rodapé -->
 	<div th:replace="fragments/Footer :: footer"></div>
 	
-	<script src="/layout/javascripts/vendors.min.js"></script>
-	<script src="/layout/javascripts/algaworks.min.js"></script>
-	<script src="/js/vendors/jquery.maskMoney.min.js"></script>
-	<script src="/js/brewer.js"></script>
+	<script th:src="@{/layout/javascripts/vendors.min.js}"></script>
+	<script th:src="@{/layout/javascripts/algaworks.min.js}"></script>
+	<script th:src="@{/js/vendors/jquery.maskMoney.min.js}"></script>
+	<script th:src="@{/js/brewer.js}"></script>
 	
 	<th:block layout:fragment="javascript-extra"></th:block>
 </body>

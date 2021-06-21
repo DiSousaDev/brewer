@@ -1,6 +1,9 @@
 package br.com.diego.brewer.thymeleaf;
 
-import br.com.diego.brewer.thymeleaf.processor.ClassForErrorAttributeProcessor;
+import br.com.diego.brewer.thymeleaf.processor.ClassForErrorAttributeTagProcessor;
+import br.com.diego.brewer.thymeleaf.processor.ClassForMessageElementTagProcessor;
+
+import org.springframework.stereotype.Component;
 import org.thymeleaf.dialect.AbstractProcessorDialect;
 import org.thymeleaf.processor.IProcessor;
 import org.thymeleaf.standard.StandardDialect;
@@ -8,6 +11,7 @@ import org.thymeleaf.standard.StandardDialect;
 import java.util.HashSet;
 import java.util.Set;
 
+@Component
 public class BrewerDialect extends AbstractProcessorDialect {
 
     public BrewerDialect() {
@@ -17,7 +21,8 @@ public class BrewerDialect extends AbstractProcessorDialect {
     @Override
     public Set<IProcessor> getProcessors(String dialectPrefix){
         final Set<IProcessor> processadores = new HashSet<>();
-        processadores.add(new ClassForErrorAttributeProcessor(dialectPrefix));
+        processadores.add(new ClassForErrorAttributeTagProcessor(dialectPrefix));
+        processadores.add(new ClassForMessageElementTagProcessor(dialectPrefix));
         return processadores;
     }
 

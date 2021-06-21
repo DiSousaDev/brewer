@@ -8,12 +8,12 @@ import org.thymeleaf.processor.element.IElementTagStructureHandler;
 import org.thymeleaf.spring5.util.FieldUtils;
 import org.thymeleaf.templatemode.TemplateMode;
 
-public class ClassForErrorAttributeProcessor extends AbstractAttributeTagProcessor {
+public class ClassForErrorAttributeTagProcessor extends AbstractAttributeTagProcessor {
 
     private static final String NOME_ATRIBUTO = "classforerror";
     private static final int PRECEDENCIA = 1000;
 
-    public ClassForErrorAttributeProcessor(String dialectPrefix){
+    public ClassForErrorAttributeTagProcessor(String dialectPrefix){
         super(TemplateMode.HTML, dialectPrefix, null, false, NOME_ATRIBUTO, true, PRECEDENCIA, true);
     }
 
