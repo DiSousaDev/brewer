@@ -6,6 +6,8 @@ import br.com.diego.brewer.model.Estilo;
 
 public interface EstiloService {
 
+	void salvar(Estilo estilo);
+	
 	List<Estilo> buscarTodos();
 	
 }

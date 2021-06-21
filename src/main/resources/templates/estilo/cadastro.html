@@ -18,20 +18,16 @@
 		</div>
 		
 		<div class="container-fluid">
-			<!-- 
-			<div class="alert  alert-danger  alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<i class="fa  fa-exclamation-circle"></i> Já existe um produto com	o nome informado.
-			</div>
-			 -->
-		
-			<form method="POST" class="form-vertical  js-form-loading">
 					
-				<div class="form-group">
-					<label for="nome">Nome</label> 
-					<input id="nome" type="text" class="form-control" />
+			<th:block th:include="fragments/MensagemSucesso.html"></th:block>
+		
+			<form method="POST" th:object="${estilo}" class="form-vertical  js-form-loading">
+		
+			<th:block th:include="fragments/MensagemErroValidacao.html"></th:block>
+					
+				<div class="form-group" th:classappend="${#fields.hasErrors('nome')} ? has-error">
+					<label class="control-label" for="nome">Nome</label> 
+					<input id="nome" type="text" class="form-control" th:field="*{nome}" />
 				</div>
 				<div class="form-group">
 					<button class="btn  btn-primary" type="submit">Salvar</button>
@@ -39,12 +35,5 @@
 			</form>
 		</div>		
 	</section>
-	
-	<th:block layout:fragment="javascript-extra">
-		<script src="/js/vendors/bootstrap-switch.min.js"></script>
-		<script>
-			$('.js-status').bootstrapSwitch();
-		</script>	
-	</th:block>
 </body>
 </html>

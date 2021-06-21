@@ -13,11 +13,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.NumberFormat;
 
 import br.com.diego.brewer.model.enums.Origem;
 import br.com.diego.brewer.model.enums.Sabor;
+import br.com.diego.brewer.model.validation.SKU;
 
 @Entity
 @Table(name = "cerveja")
@@ -28,29 +35,47 @@ public class Cerveja implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@NotBlank(message = "Informe o SKU, campo obrigatório.")
+	@SKU
+	@NotBlank(message = "{NotBlank.cerveja.sku}")
 	private String sku;
-	@NotBlank(message = "Informe o nome, campo obrigatório.")
+	
+	@NotBlank(message = "{NotBlank.cerveja.nome}")
 	private String nome;
-	@Size(min = 1, max = 50, message = "O tamanho deve estar entre {min} e {max}.")
+	
+	@NotBlank(message = "Informe a descrição, campo obrigatório.")
+	@Size(min = 1, max = 50, message = "A descrição deve conter entre {min} e {max} caracteres.")
 	private String descricao;
 	
+	@NotNull(message = "Informe um valor, campo obrigatório.")
+	@DecimalMin(value = "0.50", message = "O valor da cerveja deve ser maior que R$0,50")
+	@DecimalMax(value = "9999999.99", message = "O valor da cerveja deve ser menor que R$9.999.999,99")
+	@NumberFormat(pattern = "#,##0.00")
 	private BigDecimal valor;
 	
+	@NotNull(message = "O teor alcóolico é obrigatório")
+	@DecimalMax(value = "100.0", message = "O valor do teor alcóolico deve ser menor que 100")
 	@Column(name = "teor_alcoolico")
 	private BigDecimal teorAlcoolico;
 	
+	@NotNull(message = "Informe a comissão, campo obrigatório.")
+	@DecimalMax(value = "100.0", message = "A comissão deve ser igual ou menor que 100")
 	private BigDecimal comissao;
 	
+	@NotNull(message = "Informe a quantidade, campo obrigatório.")
+	@Max(value = 9999, message = "A quantidade em estoque deve ser menor que 9.999")
+	@NumberFormat(pattern = "#,##0")
 	@Column(name = "quantidade_estoque" )
 	private Integer quantidadeEstoque;
 	
+	@NotNull(message = "A origem é obrigatória")
 	@Enumerated(EnumType.STRING)
 	private Origem origem;
 	
+	@NotNull(message = "O sabor é obrigatório")
 	@Enumerated(EnumType.STRING)
 	private Sabor sabor;
 	
+	@NotNull(message = "O estilo é obrigatório")
 	@ManyToOne
 	@JoinColumn(name = "codigo_estilo")
 	private Estilo estilo;

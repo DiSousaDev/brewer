@@ -4,7 +4,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,15 +35,14 @@ public class CervejasController {
 	}
 	
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
-	public ModelAndView cadastrar(@Valid Cerveja cerveja, BindingResult result, ModelMap model, RedirectAttributes attr) {
+	public ModelAndView cadastrar(@Valid Cerveja cerveja, BindingResult result, RedirectAttributes attr) {
 		
 		if (result.hasErrors()) {
 			return abrirPagina(cerveja); 
 		}
-		attr.addFlashAttribute("mensagem", "Cerveja salva com sucesso!");
 		
+		attr.addFlashAttribute("mensagem", "Cerveja adicionada com sucesso!");
 		cervejaService.salvar(cerveja);
-		
 		return new ModelAndView("redirect:/cervejas/cadastrar");
 	}
 	
