@@ -18,12 +18,12 @@ public class EstiloServiceImpl implements EstiloService {
 	private EstiloRepository repository;
 
 	@Override
-	public void salvar(Estilo estilo) {
+	public Estilo salvar(Estilo estilo) {
 		Optional<Estilo> estiloOptional = repository.findByNomeIgnoreCase(estilo.getNome());
 		if (estiloOptional.isPresent()) {
 			throw new NomeEstiloJaCadastradoException("Estilo já cadastrado.");
 		}
-		repository.save(estilo);
+		return repository.saveAndFlush(estilo);
 	}
 	
 	@Override

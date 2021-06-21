@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
 </head>
@@ -16,6 +15,9 @@
 					<h4 class="modal-title">Cadastrar Novo Estilo</h4>
 				</div>
 				<div class="modal-body">
+
+					<div class="alert alert-danger hidden js-mensagem-cadastro-rapido-estilo" role="alert"></div>
+
 					<form class="form-horizontal" th:action="@{/estilos}">
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="nomeEstilo">Nome</label>

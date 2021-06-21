@@ -3,6 +3,7 @@
 	lang="pt-BR" 
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:brewer="http://www.brewer.com"
 	layout:decorate="~{layout}">
 <head>
 	<meta charset="UTF-8" />
@@ -25,7 +26,7 @@
 			<th:block th:include="fragments/MensagemErroValidacao.html"></th:block>
 
 				<div class="row">
-					<div class="col-sm-2 form-group" th:classappend="${#fields.hasErrors('sku')} ? has-error">
+					<div class="col-sm-2 form-group" brewer:classforerror="sku">
 						<label class="control-label" for="sku">SKU</label> 
 						<input id="sku" type="text" class="form-control" th:field="*{sku}" />
 					</div>
