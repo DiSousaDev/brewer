@@ -8,6 +8,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>Cadastro de Cerveja</title>
+	<link rel="stylesheet" th:href="@{/css/vendors/upload.min.css}" />
 </head>
 <body>
 	<section layout:fragment="conteudo">
@@ -105,6 +106,21 @@
 						<input id="quantidadeEstoque" type="text" class="form-control js-plain" th:field="*{quantidadeEstoque}"/>
 					</div>
 				</div>
+				
+				<div class="row">
+					<div class="form-group col-sm-12">
+						<input type="hidden" th:field="*{foto}"></input>
+						<input type="hidden" th:field="*{contentType}"></input>
+					
+						<label class="control-label">Foto</label>
+						
+						<div id="upload-drop" class="bw-upload">
+							<i class="glyphicon  glyphicon-cloud-upload"></i>
+							<span>Arraste a foto aqui ou </span>
+							<a class="bw-upload-form-file">selecione <input id="upload-select" type="file" accept=".jpg,.jpeg,.png"/></a>
+						</div>
+					</div>
+				</div>
 		
 				<div class="form-group">
 					<button class="btn  btn-primary" type="submit">Salvar</button>
@@ -118,7 +134,26 @@
 	</section>
 	
 	<th:block layout:fragment="javascript-extra">
-		<script src="/js/estilo.cadastro-rapido.js"></script>
+		<script th:src="@{/js/estilo.cadastro-rapido.js}"></script>
+		<script th:src="@{/js/vendors/uikit.min.js}"></script>		
+		<script th:src="@{/js/vendors/upload.min.js}"></script>		
+		<script>
+			$(function() {
+				var settings = {
+						type: 'json',
+						filelimit: 1,
+						allow: '*.(jpg|jpeg|png)',
+						action: '/fotos',
+						complete: function(resposta){
+							$('input[name=foto]').val(resposta.nome);
+							$('input[name=contentType]').val(resposta.contentType);
+						}
+				};
+				UIkit.uploadSelect($('#upload-select'), settings);
+				UIkit.uploadDrop($('#upload-drop'), settings);
+			});
+		</script>
+		
 	</th:block>
 </body>
 </html>
