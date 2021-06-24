@@ -34,11 +34,11 @@
 		<!-- Corpo da página -->"
 		<section layout:fragment="conteudo" class="aw-layout-content  js-content"></section>
 	
+		<!-- Rodapé -->
+		<div th:replace="fragments/Footer :: footer"></div>
+	
 	</div>
-	
-	<!-- Rodapé -->
-	<div th:replace="fragments/Footer :: footer"></div>
-	
+		
 	<script th:src="@{/layout/javascripts/vendors.min.js}"></script>
 	<script th:src="@{/layout/javascripts/algaworks.min.js}"></script>
 	<script th:src="@{/js/vendors/jquery.maskMoney.min.js}"></script>
