@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,6 +45,14 @@ public class CervejasController {
 		attr.addFlashAttribute("mensagem", "Cerveja adicionada com sucesso!");
 		cervejaService.salvar(cerveja);
 		return new ModelAndView("redirect:/cervejas/cadastrar");
+	}
+	
+	@GetMapping
+	public ModelAndView pesquisar() {
+		ModelAndView mv = new ModelAndView("/cerveja/pesquisa");
+		mv.addObject("estilos", estiloService.buscarTodos()); //Adicionando ao ModelAndView ou adicionando pelo @ModelAttribute funciona igual
+		mv.addObject("cervejas", cervejaService.buscarTodas());
+		return mv;
 	}
 	
 	

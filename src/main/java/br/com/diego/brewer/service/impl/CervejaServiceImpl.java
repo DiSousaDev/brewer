@@ -1,5 +1,7 @@
 package br.com.diego.brewer.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,11 @@ public class CervejaServiceImpl implements CervejaService {
 	@Transactional(readOnly = false)
 	public void salvar(Cerveja cerveja) {
 		repository.save(cerveja);		
+	}
+
+	@Override
+	public List<Cerveja> buscarTodas() {
+		return repository.findAll();
 	}
 
 }

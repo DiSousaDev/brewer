@@ -14,7 +14,18 @@
 	<section layout:fragment="conteudo">
 		<div class="page-header">
 			<div class="container-fluid">
-				<h1>Cadastro de Cerveja</h1>
+				<div class="row">
+					<div class="col-sm-10">
+						<h1>Cadastro de Cerveja</h1>
+					</div>
+					<div class="col-sm-2">
+						<div class="aw-page-header-controls">
+							<a class="btn btn-default" th:href="@{/cervejas}">
+								<i class="glyphicon glyphicon-plus-sign"></i><span class="hidden-xs hidden-sm">Pesquisar Cervejas</span>
+							</a>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		
@@ -26,23 +37,23 @@
 				<brewer:message/>
 
 				<div class="row">
-					<div class="col-sm-2 form-group" brewer:classforerror="sku">
+					<div class="col-sm-2 form-group bw-required" brewer:classforerror="sku">
 						<label class="control-label" for="sku">SKU</label> 
 						<input id="sku" type="text" class="form-control" th:field="*{sku}" />
 					</div>
-					<div class="col-sm-10 form-group" brewer:classforerror="nome">
+					<div class="col-sm-10 form-group bw-required" brewer:classforerror="nome">
 						<label class="control-label" for="nome">Nome</label> 
 						<input id="nome" type="text" class="form-control" th:field="*{nome}" />
 					</div>					
 				</div>
 		
-				<div class="form-group" brewer:classforerror="descricao">
+				<div class="form-group bw-required" brewer:classforerror="descricao">
 					<label class="control-label" for="descricao">Descrição</label>
 					<textarea id="descricao" rows="3" class="form-control" th:field="*{descricao}"></textarea>
 				</div>
 		
 				<div class="row">
-					<div class="col-sm-3 form-group" brewer:classforerror="estilo">
+					<div class="col-sm-3 form-group bw-required" brewer:classforerror="estilo">
 						<label class="control-label" for="estilo">Estilo</label>
 						<div class="bw-field-action">	 
 							<select id="estilo" class="form-control" th:field="*{estilo}">
@@ -57,7 +68,7 @@
 						</div>
 					</div>
 		
-					<div class="col-sm-3 form-group" brewer:classforerror="sabor">
+					<div class="col-sm-3 form-group bw-required" brewer:classforerror="sabor">
 						<label class="control-label" for="sabor">Sabor</label> 
 						<select id="sabor" class="form-control" th:field="*{sabor}">
 							<option value="">Selecione o Sabor</option>
@@ -65,7 +76,7 @@
 						</select>
 					</div>
 		
-					<div class="col-sm-3 form-group" brewer:classforerror="teorAlcoolico">
+					<div class="col-sm-3 form-group bw-required" brewer:classforerror="teorAlcoolico">
 						<label class="control-label" for="teorAlcoolico">Teor Alcoólico</label> 
 						<div class="input-group">
 							<input id="teorAlcoolico" type="text" class="form-control js-decimal" th:field="*{teorAlcoolico}"/>
@@ -73,7 +84,7 @@
 						</div>
 					</div>
 					
-					<div class="col-lg-3 col-sm-6 form-group" brewer:classforerror="origem">
+					<div class="col-lg-3 col-sm-6 form-group bw-required" brewer:classforerror="origem">
 						<label class="control-label" for="origem">Origem</label> 
 						<div>
 							<th:block th:each="origem : ${origens}">
@@ -87,21 +98,21 @@
 				</div>
 				
 				<div class="row">
-					<div class="col-sm-3 form-group" brewer:classforerror="valor">
+					<div class="col-sm-3 form-group bw-required" brewer:classforerror="valor">
 						<label class="control-label" for="valor">Valor</label> 
 						<div class="input-group">
 							<div class="input-group-addon">R$</div>
 							<input id="valor" type="text" class="form-control js-decimal" th:field="*{valor}"/>
 						</div>
 					</div>
-					<div class="col-sm-3 form-group" brewer:classforerror="comissao">
+					<div class="col-sm-3 form-group bw-required" brewer:classforerror="comissao">
 						<label class="control-label" for="comissao">Comissão</label> 
 						<div class="input-group">
 							<input id="comissao" type="text" class="form-control js-decimal" th:field="*{comissao}"/>
 							<div class="input-group-addon">%</div>
 						</div>
 					</div>
-					<div class="col-sm-3 form-group" brewer:classforerror="quantidadeEstoque">
+					<div class="col-sm-3 form-group bw-required" brewer:classforerror="quantidadeEstoque">
 						<label class="control-label" for="quantidadeEstoque">Estoque</label> 
 						<input id="quantidadeEstoque" type="text" class="form-control js-plain" th:field="*{quantidadeEstoque}"/>
 					</div>
@@ -114,7 +125,7 @@
 					
 						<label class="control-label">Foto</label>
 						
-						<div class="js-container-foto-cerveja">
+						<div class="js-container-foto-cerveja" th:attr="data-url-fotos=@{/fotos}">
 							<div id="upload-drop" class="bw-upload">
 								<i class="glyphicon  glyphicon-cloud-upload"></i>
 								<span>Arraste a foto aqui ou </span>
@@ -141,44 +152,7 @@
 		<script th:src="@{/js/vendors/uikit.min.js}"></script>		
 		<script th:src="@{/js/vendors/upload.min.js}"></script>
 		<script th:src="@{/js/vendors/handlebars.min.js}"></script>		
-		<script>
-			$(function() {
-				var settings = {
-						type: 'json',
-						filelimit: 1,
-						allow: '*.(jpg|jpeg|png)',
-						action: '/fotos',
-						complete: function(resposta){
-							var inputNomeFoto = $('input[name=foto]');
-							var inputContentType = $('input[name=contentType]');
-							
-							var htmlFotoCervejaTemplate = $('#foto-cerveja').html();
-							var template = Handlebars.compile(htmlFotoCervejaTemplate);
-							var htmlFotoCerveja = template({nomeFoto: resposta.nome});
-							
-							var containerFotoCerveja = $('.js-container-foto-cerveja');
-							
-							var uploadDrop = $('#upload-drop');
-							
-							inputNomeFoto.val(resposta.nome);
-							inputContentType.val(resposta.contentType);
-							
-							uploadDrop.addClass('hidden');
-							containerFotoCerveja.append(htmlFotoCerveja);
-							
-							$('.js-remove-foto').on('click', function() {
-								$('.js-foto-cerveja').remove();
-								uploadDrop.removeClass('hidden');
-								inputNomeFoto.val('');
-								inputContentType.val('');
-							});					
-						}
-				};
-				UIkit.uploadSelect($('#upload-select'), settings);
-				UIkit.uploadDrop($('#upload-drop'), settings);
-			});
-		</script>
-		
+		<script th:src="@{/js/cerveja.upload-foto.js}"></script>
 	</th:block>
 </body>
 </html>
