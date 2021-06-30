@@ -23,6 +23,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.NumberFormat;
+import org.springframework.util.ObjectUtils;
 
 import br.com.diego.brewer.model.enums.Origem;
 import br.com.diego.brewer.model.enums.Sabor;
@@ -196,6 +197,10 @@ public class Cerveja implements Serializable {
 	
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
+	}
+	
+	public String getFotoOuMock() {
+		return !ObjectUtils.isEmpty(foto) ? foto : "thumbnail.cerveja-mock.png";
 	}
 
 	@Override

@@ -1,6 +1,22 @@
+/*
+######################
+# UTILIDADES
+######################
+*/
+
 .bw-glyphicon-large {
 	font-size: 18px;
 }
+
+.bw-required > .control-label:after {
+	content: "*"
+}
+
+/*
+######################
+# COMPONENTES
+######################
+*/
 
 .bw-field-action {
 	display: flex;
@@ -8,10 +24,6 @@
 
 .bw-field-action_icon {
 	margin: 6px 0 0 5px;
-}
-
-.bw-required > .control-label:after {
-	content: "*"
 }
 
 /* Upload */
