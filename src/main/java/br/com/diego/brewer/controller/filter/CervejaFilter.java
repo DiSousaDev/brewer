@@ -64,11 +64,5 @@ public class CervejaFilter {
 	public void setValorAte(BigDecimal valorAte) {
 		this.valorAte = valorAte;
 	}
-	
-	@Override
-	public String toString() {
-		return "CervejaFilter [sku=" + sku + ", nome=" + nome + ", estilo=" + estilo + ", sabor=" + sabor + ", origem="
-				+ origem + ", valorDe=" + valorDe + ", valorAte=" + valorAte + "]";
-	}
 			
 }

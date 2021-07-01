@@ -2,7 +2,16 @@ INSERT INTO estilo (nome) VALUES
 ('Amber Lager'),
 ('Dark Lager'),
 ('Pale Lager'),
-('Pilsner');
+('Pilsner'),
+('American Lager'),
+('Pale Ale'),
+('IPA'),
+('Stout'),
+('Vienna Lager'),
+('Weiss'),
+('Porter'),
+('Witbier'),
+('Tripel');
 
 INSERT INTO cerveja VALUES
 (1, 11.11, 'image/png', 'cffqwe', '4a0d26c2-234e-42a7-9436-eb90f8eedcec_negra-modelo-long-neck-355ml.png', 'Cerveja Escura', 'NACIONAL', 111, 'ADOCICADA', 'AA1233', 10.00, 11.11, 1),

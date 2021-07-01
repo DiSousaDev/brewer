@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -33,10 +35,10 @@ public class CervejaServiceImpl implements CervejaService {
 
 	@Autowired
 	private CervejaRepository repository;
-	
+
 	@Autowired
 	private ApplicationEventPublisher publisher;
-	
+
 	@PersistenceContext
 	private EntityManager manager;
 
@@ -44,7 +46,7 @@ public class CervejaServiceImpl implements CervejaService {
 	@Transactional(readOnly = false)
 	public Cerveja salvar(Cerveja cerveja) {
 		Optional<Cerveja> cervejaOptional = repository.findBySku(cerveja.getSku());
-		if(cervejaOptional.isPresent()) {
+		if (cervejaOptional.isPresent()) {
 			throw new SkuCervejaJaCadastradoException("Sku já cadastrado.");
 		}
 		publisher.publishEvent(new CervejaSalvaEvent(cerveja));
@@ -55,24 +57,32 @@ public class CervejaServiceImpl implements CervejaService {
 	public List<Cerveja> buscarTodas() {
 		return repository.findAll();
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public Page<Cerveja> filtrar(CervejaFilter filtro, Pageable pageable) {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Cerveja.class);
-		
+
 		int paginaAtual = pageable.getPageNumber();
 		int totalRegistrosPorPagina = pageable.getPageSize();
 		int primeiroRegistro = paginaAtual * totalRegistrosPorPagina;
-		
+
 		criteria.setFirstResult(primeiroRegistro);
 		criteria.setMaxResults(totalRegistrosPorPagina);
+
+		Sort sort = pageable.getSort();
+		
+		if (sort.isSorted()) {
+			Sort.Order order = sort.iterator().next();
+			String property = order.getProperty();
+			criteria.addOrder(order.isAscending() ? Order.asc(property) : Order.desc(property));
+		}
 		
 		filtrarConsulta(filtro, criteria);
-		
+
 		return new PageImpl<>(criteria.list(), pageable, totalRegistros(filtro));
 	}
-	
+
 	private Long totalRegistros(CervejaFilter filtro) {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Cerveja.class);
 		filtrarConsulta(filtro, criteria);
@@ -85,7 +95,7 @@ public class CervejaServiceImpl implements CervejaService {
 			if (!ObjectUtils.isEmpty(filtro.getSku())) {
 				criteria.add(Restrictions.eq("sku", filtro.getSku()));
 			}
-			
+
 			if (!ObjectUtils.isEmpty(filtro.getNome())) {
 				criteria.add(Restrictions.ilike("nome", filtro.getNome(), MatchMode.ANYWHERE));
 			}
