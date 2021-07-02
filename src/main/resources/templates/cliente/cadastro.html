@@ -3,6 +3,7 @@
 	lang="pt-BR" 
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:data="http://www.thymeleaf.org/extras/data"
+	xmlns:brewer="http://www.brewer.com"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout}">
 <head>
@@ -18,20 +19,14 @@
 		</div>
 		
 		<div class="container-fluid">
-			<!-- 
-			<div class="alert  alert-danger  alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<i class="fa  fa-exclamation-circle"></i> Já existe um produto com	o nome informado.
-			</div>
-			 -->
+					
+			<form method="POST" th:object="${cliente}">
 		
-			<form method="POST" class="form-vertical  js-form-loading">
+				<brewer:message/>
 		
 				<div class="form-group">
 						<label for="nome">Nome</label> 
-						<input id="nome" type="text" class="form-control" />
+						<input id="nome" type="text" class="form-control" th:field="*{nome}" />
 					</div>
 		
 				<div class="row">
@@ -40,7 +35,8 @@
 						<div>
 							<th:block th:each="tipoPessoa : ${tiposPessoa}">
 								<div class="radio radio-inline">
-									<input type="radio" th:id="|id_${tipoPessoa}|" name="tipoPessoa" class="js-radio-tipo-pessoa" 
+									<input type="radio" th:id="|id_${tipoPessoa}|" name="tipoPessoa" class="js-radio-tipo-pessoa"
+										th:field="*{tipoPessoa}" th:value="*{tipoPessoa}"
 										data:documento=${tipoPessoa.documento} data:mascara=${tipoPessoa.mascara}>
 									<label class="cotrol-label" th:for="|id_${tipoPessoa}|" th:text="${tipoPessoa.descricao}">Física</label>
 								</div>

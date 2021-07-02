@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.diego.brewer.model.Cliente;
 import br.com.diego.brewer.model.Estado;
 import br.com.diego.brewer.model.enums.TipoPessoa;
 import br.com.diego.brewer.service.EstadoService;
@@ -24,17 +25,17 @@ public class ClienteController {
 	private EstadoService estadoService;
 	
 	@RequestMapping("/cadastrar")
-	public ModelAndView abrirPagina() {
+	public ModelAndView abrirPagina(Cliente cliente) {
 		ModelAndView mv = new ModelAndView("cliente/cadastro");
 		mv.addObject("tiposPessoa", TipoPessoa.values());
 		return mv;
 	}
 	
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
-	public ModelAndView cadastrar(BindingResult result, ModelMap model, RedirectAttributes attr) {
+	public ModelAndView cadastrar(Cliente cliente, BindingResult result, ModelMap model, RedirectAttributes attr) {
 		
 		if (result.hasErrors()) {
-			return abrirPagina(); 
+			return abrirPagina(cliente); 
 		}
 		attr.addFlashAttribute("mensagem", "Cliente cadastrado com sucesso!");
 		return new ModelAndView("redirect:/clientes/cadastrar");
