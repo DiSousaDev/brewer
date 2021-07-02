@@ -45,14 +45,14 @@
 					</div>
 					<div class="col-sm-8 form-group">
 						<label for="cpfOuCnpj">CPF/CNPJ</label> 
-						<input id="cpfOuCnpj" type="text" class="form-control" disabled />
+						<input id="cpfOuCnpj" type="text" class="form-control" disabled th:field="*{cpjOuCnpj}" />
 					</div>			
 				</div>
 				
 				<div class="row">
 					<div class="col-lg-4 col-sm-8 form-group">
 						<label for="telefone">Telefone</label> 
-						<input id="telefone" type="text" class="form-control js-phone-number" />
+						<input id="telefone" type="text" class="form-control js-phone-number"  th:field="*{cpjOuCnpj}"/>
 					</div>	
 					<div class="col-sm-8 form-group">
 						<label for="email">E-mail</label> 
