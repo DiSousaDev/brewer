@@ -5,6 +5,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -13,18 +14,19 @@ public class UsuarioController {
 
 	
 	@RequestMapping("/cadastrar")
-	public String abrirPagina() {
-		return "usuario/cadastro";
+	public ModelAndView abrirPagina() {
+		ModelAndView mv = new ModelAndView("usuario/cadastro");
+		return mv;
 	}
 	
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
-	public String cadastrar(BindingResult result, ModelMap model, RedirectAttributes attr) {
+	public ModelAndView cadastrar(BindingResult result, ModelMap model, RedirectAttributes attr) {
 		
 		if (result.hasErrors()) {
 			return abrirPagina(); 
 		}
 		attr.addFlashAttribute("mensagem", "Usuario salvo com sucesso!");
-		return "redirect:/usuarios/cadastrar";
+		return new ModelAndView("redirect:/usuarios/cadastrar");
 	}
 	
 }

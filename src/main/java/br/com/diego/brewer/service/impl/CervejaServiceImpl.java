@@ -9,7 +9,6 @@ import javax.persistence.PersistenceContext;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,12 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import br.com.diego.brewer.controller.filter.CervejaFilter;
+import br.com.diego.brewer.controller.page.PaginacaoUtil;
 import br.com.diego.brewer.model.Cerveja;
 import br.com.diego.brewer.repository.CervejaRepository;
 import br.com.diego.brewer.service.CervejaService;
@@ -41,6 +40,9 @@ public class CervejaServiceImpl implements CervejaService {
 
 	@PersistenceContext
 	private EntityManager manager;
+	
+	@Autowired
+	PaginacaoUtil paginacaoUtil;
 
 	@Override
 	@Transactional(readOnly = false)
@@ -63,20 +65,7 @@ public class CervejaServiceImpl implements CervejaService {
 	public Page<Cerveja> filtrar(CervejaFilter filtro, Pageable pageable) {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Cerveja.class);
 
-		int paginaAtual = pageable.getPageNumber();
-		int totalRegistrosPorPagina = pageable.getPageSize();
-		int primeiroRegistro = paginaAtual * totalRegistrosPorPagina;
-
-		criteria.setFirstResult(primeiroRegistro);
-		criteria.setMaxResults(totalRegistrosPorPagina);
-
-		Sort sort = pageable.getSort();
-		
-		if (sort.isSorted()) {
-			Sort.Order order = sort.iterator().next();
-			String property = order.getProperty();
-			criteria.addOrder(order.isAscending() ? Order.asc(property) : Order.desc(property));
-		}
+		paginacaoUtil.preparar(criteria, pageable);
 		
 		filtrarConsulta(filtro, criteria);
 
