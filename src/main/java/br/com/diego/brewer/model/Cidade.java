@@ -1,6 +1,6 @@
 package br.com.diego.brewer.model;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,8 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "cidade")
@@ -21,8 +23,11 @@ public class Cidade implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
+
+	@NotBlank(message = "Informe um nome, campo obrigatório.")
 	private String nome;
-	
+
+	@NotNull(message = "Informe o Estado, campo obrigatório.")
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "codigo_estado")
@@ -54,5 +59,20 @@ public class Cidade implements Serializable {
 	
 	public void setEstado(Estado estado) {
 		this.estado = estado;
+	}
+
+	@Override
+	public boolean equals(Object o){
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Cidade cidade = (Cidade) o;
+		return Objects.equals(codigo, cidade.codigo);
+	}
+
+	@Override
+	public int hashCode(){
+		return Objects.hash(codigo);
 	}
 }

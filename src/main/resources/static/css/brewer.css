@@ -122,3 +122,38 @@
 .table-estilos-col-acoes {
 	width: 80px;
 }
+
+/* Colunas - Pesquisa de Clientes */
+.table-clientes-col-nome {
+	width: 150px;
+}
+
+.table-clientes-col-tipoPessoa {
+	width: 100px;
+}
+
+.table-clientes-col-cpfOuCnpj {
+	width: 100px;
+}
+
+.table-clientes-col-telefone {
+	width: 100px;
+}
+
+.table-clientes-col-cidade-estado {
+	width: 100px;
+}
+
+.table-clientes-col-acoes {
+	width: 80px;
+}
+
+/* Colunas - Pesquisa de cidades */
+.table-cidades-col-nome {
+
+}
+
+.table-cidades-col-estado {
+	width: 140px;
+	text-align: right;
+}

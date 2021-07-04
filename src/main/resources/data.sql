@@ -48,3 +48,19 @@ INSERT INTO cidade (nome, codigo_estado) VALUES ('São Paulo', 6);
 INSERT INTO cidade (nome, codigo_estado) VALUES ('Ribeirão Preto', 6);
 INSERT INTO cidade (nome, codigo_estado) VALUES ('Campinas', 6);
 INSERT INTO cidade (nome, codigo_estado) VALUES ('Santos', 6);
+
+INSERT INTO "PUBLIC"."cliente" VALUES
+(1, '05496280966', '', '', '', '', '', 'Joao Silva', '', 'FISICA', NULL),
+(2, '05720076980', 'diegosous@gmail.com', '83.407-730', 'Apto 21', 'Rua Ailton Luiz Nodari', '157', STRINGDECODE('\u00c9der Diego de Sousa'), '(41) 99820-3155', 'FISICA', 17),
+(3, '05881460000190', 'agne@agnemoveis.com.br', '83.404-000', 'Fundos', STRINGDECODE('Avenida S\u00e3o Gabriel'), '272', 'Agne Moveis', '(41) 3621-9846', 'JURIDICA', 9),
+(4, '81259250822', '', '', '', '', '', 'Malu Gabrielly Maria Viana', '', 'FISICA', NULL),
+(5, '80164296379', '', '', '', '', '', 'Geraldo Bento Drumond', '', 'FISICA', NULL),
+(6, '19624430519', '', '', '', '', '', 'Helena Daniela Carla Sales', '', 'FISICA', NULL),
+(7, '13579942000118', '', '', '', '', '', 'Antonio e Isabella Marketing Ltda', '', 'JURIDICA', NULL),
+(8, '45225488000193', '', '', '', '', '', 'Tatiane e Giovanni Telas Ltda', '', 'JURIDICA', NULL),
+(9, '77476450000180', '', '', '', '', '', STRINGDECODE('B\u00e1rbara e Milena Constru\u00e7\u00f5es ME'), '', 'JURIDICA', NULL),
+(10, '81632896000123', '', '', '', '', '', 'Aline e Luiza Telecom ME', '', 'JURIDICA', NULL),
+(11, '99581636000131', '', '', '', '', '', STRINGDECODE('Ian e M\u00e1rcio Cont\u00e1bil ME'), '', 'JURIDICA', NULL),
+(12, '18622608425', '', '', '', '', '', 'Larissa Rebeca da Paz', '(95) 98589-7931', 'FISICA', NULL),
+(13, '53150182611', '', '', '', '', '', 'Andreia Silvana Milena Campos', '(21) 3850-9410', 'FISICA', NULL),
+(14, '19116205000165', '', '', '', '', '', STRINGDECODE('M\u00e1rcia e Antonio Entulhos Ltda'), '(19) 2549-7346', 'JURIDICA', NULL);

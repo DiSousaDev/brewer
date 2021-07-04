@@ -55,7 +55,6 @@ public class CervejasController {
 			result.rejectValue("sku", e.getMessage(), e.getMessage());
 			return abrirPagina(cerveja);
 		}
-		attr.addFlashAttribute("mensagem", "Cerveja adicionada com sucesso!");
 		return new ModelAndView("redirect:/cervejas/cadastrar");
 	}
 

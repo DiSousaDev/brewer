@@ -1,6 +1,12 @@
 package br.com.diego.brewer.model;
 
-import java.io.Serializable;
+import br.com.diego.brewer.model.enums.TipoPessoa;
+import br.com.diego.brewer.model.validation.ClienteGroupSequenceProvider;
+import br.com.diego.brewer.model.validation.group.CnpjGroup;
+import br.com.diego.brewer.model.validation.group.CpfGroup;
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
+import org.hibernate.validator.group.GroupSequenceProvider;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -10,29 +16,55 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PostLoad;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-
-import br.com.diego.brewer.model.enums.TipoPessoa;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "cliente")
+@GroupSequenceProvider(value = ClienteGroupSequenceProvider.class)
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
+
+	@NotBlank(message = "Informe um nome, campo obrigatório.")
 	private String nome;
+
+	@CPF(groups = CpfGroup.class)
+	@CNPJ(groups = CnpjGroup.class)
 	@Column(name = "cpf_cnpj")
-	private String cpjOuCnpj;
+	private String cpfOuCnpj;
+
+	@NotNull(message = "Informe o tipo de pessoa, campo obrigatório.")
 	@Column(name = "tipo_pessoa")
 	@Enumerated(EnumType.STRING)
 	private TipoPessoa tipoPessoa;
 	@Embedded
 	private Endereco endereco;
 	private String telefone;
+
+	@Email(message = "E-mail inválido!")
 	private String email;
-		
+
+	@PrePersist
+	@PreUpdate
+	private void prePersistPreUpdate() {
+		this.cpfOuCnpj = TipoPessoa.removerFormatacao(cpfOuCnpj);
+	}
+
+	@PostLoad
+	private void postLoad() {
+		this.cpfOuCnpj = tipoPessoa.formatar(this.cpfOuCnpj);
+	}
+
 	public Cliente() {
 	
 	}
@@ -53,12 +85,16 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getCpjOuCnpj() {
-		return cpjOuCnpj;
+	public String getCpfOuCnpj() {
+		return cpfOuCnpj;
 	}
 
-	public void setCpjOuCnpj(String cpjOuCnpj) {
-		this.cpjOuCnpj = cpjOuCnpj;
+	public String getCpfOuCnpjSemFormatacao() {
+		return TipoPessoa.removerFormatacao(cpfOuCnpj);
+	}
+
+	public void setCpfOuCnpj(String cpfOuCnpj) {
+		this.cpfOuCnpj = cpfOuCnpj;
 	}
 
 	public TipoPessoa getTipoPessoa() {
