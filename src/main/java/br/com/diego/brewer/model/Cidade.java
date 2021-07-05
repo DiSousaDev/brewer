@@ -28,11 +28,11 @@ public class Cidade implements Serializable {
 	private String nome;
 
 	@NotNull(message = "Informe o Estado, campo obrigatório.")
-	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "codigo_estado")
+	@JsonIgnore
 	private Estado estado;
-	
+
 	public Cidade() {
 	
 	}
@@ -59,6 +59,10 @@ public class Cidade implements Serializable {
 	
 	public void setEstado(Estado estado) {
 		this.estado = estado;
+	}
+
+	public boolean temEstado() {
+		return estado != null;
 	}
 
 	@Override

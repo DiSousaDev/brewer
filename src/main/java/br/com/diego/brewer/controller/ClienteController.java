@@ -8,6 +8,7 @@ import br.com.diego.brewer.controller.page.PageWrapper;
 import br.com.diego.brewer.model.Estilo;
 import br.com.diego.brewer.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -42,6 +43,7 @@ public class ClienteController {
 	public ModelAndView abrirPagina(Cliente cliente) {
 		ModelAndView mv = new ModelAndView("cliente/cadastro");
 		mv.addObject("tiposPessoa", TipoPessoa.values());
+		mv.addObject("estados", estadoService.buscarTodos());
 		return mv;
 	}
 	
@@ -70,10 +72,5 @@ public class ClienteController {
 
 		return mv;
 	}
-	
-	@ModelAttribute("estados")
-	public List<Estado> getEstados() {
-		return estadoService.buscarTodos();
-	}
-	
+
 }

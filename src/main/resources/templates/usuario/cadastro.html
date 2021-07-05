@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html 
-	lang="pt-BR" 
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout}">
+<html
+		lang="pt-BR"
+		xmlns:th="http://www.thymeleaf.org"
+		xmlns:brewer="http://www.brewer.com"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{layout}">
 <head>
 <link rel="stylesheet" type="text/css" href="/css/vendors/bootstrap-switch.min.css" />
 	<meta charset="UTF-8" />
@@ -13,31 +14,36 @@
 	<section layout:fragment="conteudo">
 		<div class="page-header">
 			<div class="container-fluid">
-				<h1>Cadastro de Usuário</h1>
+				<div class="row">
+					<div class="col-sm-10">
+						<h1>Cadastro de Usuário</h1>
+					</div>
+
+					<div class="col-sm-2">
+						<div class="aw-page-header-controls">
+							<a class="btn btn-default" th:href="@{/usuarios}">
+								<i class="glyphicon glyphicon-plus-sign"></i> <span class="hidden-xs hidden-sm"> Pesquisar Usuários</span>
+							</a>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		
+
 		<div class="container-fluid">
-			<!-- 
-			<div class="alert  alert-danger  alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<i class="fa  fa-exclamation-circle"></i> Já existe um produto com	o nome informado.
-			</div>
-			 -->
-		
-			<form method="POST" class="form-vertical  js-form-loading">
-		
-				<div class="form-group">
-						<label for="nome">Nome</label> 
-						<input id="nome" type="text" class="form-control" />
+			<form method="POST" th:object="${usuario}" th:action="@{/usuarios/cadastrar}">
+
+			<brewer:message/>
+
+				<div class="form-group bw-required" brewer:classforerror="nome">
+					<label for="nome" class="control-label">Nome</label>
+					<input id="nome" type="text" class="form-control" th:field="*{nome}" />
 				</div>
 					
 				<div class="row">
-					<div class="col-lg-6 form-group">
-						<label for="email">E-mail</label> 
-						<input id="email" type="text" class="form-control" />
+					<div class="col-lg-6 form-group bw-required" brewer:classforerror="email">
+						<label for="email" class="control-label">E-mail</label>
+						<input id="email" type="text" class="form-control" th:field="*{email}"/>
 					</div>
 					<div class="col-lg-3 form-group">
 						<label for="dataNascimento">Data de Nascimento</label> 
@@ -46,13 +52,13 @@
 				</div>
 				
 				<div class="row">
-					<div class="col-sm-3 form-group">
-						<label for="senha">Senha</label> 
-						<input id="senha" type="text" class="form-control" />
+					<div class="col-sm-3 form-group" brewer:classforerror="senha">
+						<label for="senha" class="control-label">Senha</label>
+						<input id="senha" type="password" class="form-control" th:field="*{senha}"/>
 					</div>
-					<div class="col-sm-3 form-group">
-						<label for="confirmaSenha">Confirmação de Senha</label> 
-						<input id="confirmaSenha" type="text" class="form-control" />
+					<div class="col-sm-3 form-group" brewer:classforerror="confirmacaoSenha">
+						<label for="confirmaSenha" class="control-label">Confirmação de Senha</label>
+						<input id="confirmaSenha" type="password" class="form-control" th:field="*{confirmacaoSenha}"/>
 					</div>
 					<div class="col-sm-3 form-group">
 						<label class="control-label">Status</label> 
@@ -64,15 +70,15 @@
 				</div>
 		
 				<div class="row">
-					<div class="col-sm-6 form-group">
+					<div class="col-sm-6 form-group bw-required" brewer:classforerror="grupos">
 						<label class="control-label">Grupos</label> 
 						<div>
 							<div class="checkbox checkbox-inline">
-								<input id="administrador" type="checkbox" name="administrador"/>
+								<input id="administrador" type="checkbox"/>
 								<label for="administrador">Administrador</label>
 							</div>
 							<div class="checkbox checkbox-inline">
-								<input id="vendedor" type="checkbox" name="vendedor"/>
+								<input id="vendedor" type="checkbox"/>
 								<label for="vendedor">Vendedor</label>
 							</div>
 						</div>

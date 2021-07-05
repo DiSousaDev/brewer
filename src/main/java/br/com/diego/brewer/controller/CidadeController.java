@@ -9,6 +9,8 @@ import br.com.diego.brewer.model.Cliente;
 import br.com.diego.brewer.model.Estado;
 import br.com.diego.brewer.service.EstadoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
@@ -39,14 +41,17 @@ public class CidadeController {
 
 	@Autowired
 	private EstadoService estadoService;
-	
+
 	@RequestMapping("/cadastrar")
+	@Cacheable("estados")
 	public ModelAndView abrirPagina(Cidade cidade) {
 		ModelAndView mv = new ModelAndView("cidade/cadastro");
+		mv.addObject("estados", estadoService.buscarTodos());
 		return mv;
 	}
 	
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
+	@CacheEvict(value = "cidades", key = "#cidade.estado.codigo", condition = "#cidade.temEstado()")
 	public ModelAndView cadastrar(@Valid Cidade cidade, BindingResult result, ModelMap model, RedirectAttributes attr) {
 		
 		if (result.hasErrors()) {
@@ -63,12 +68,13 @@ public class CidadeController {
 		attr.addFlashAttribute("mensagem", "Cidade adicionada com sucesso!");
 		return new ModelAndView("redirect:/cidades/cadastrar");
 	}
-	
+
+	@Cacheable(value = "cidades", key = "#codigoEstado")
 	@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<Cidade> buscarPorCodigoEstado(@RequestParam(name = "estado", defaultValue = "-1") Long codigoEstado) {
 		
 		try {
-			Thread.sleep(500);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 		
 		return cidadeService.buscarPorCodigoEstado(codigoEstado);
@@ -84,9 +90,4 @@ public class CidadeController {
 		return mv;
 	}
 
-	@ModelAttribute("estados")
-	public List<Estado> getEstados() {
-		return estadoService.buscarTodos();
-	}
-	
 }
