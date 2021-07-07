@@ -1,33 +1,25 @@
 package br.com.diego.brewer.controller;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
-import br.com.diego.brewer.controller.filter.ClienteFilter;
-import br.com.diego.brewer.controller.filter.EstiloFilter;
-import br.com.diego.brewer.controller.page.PageWrapper;
-import br.com.diego.brewer.model.Estilo;
-import br.com.diego.brewer.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.diego.brewer.controller.filter.ClienteFilter;
+import br.com.diego.brewer.controller.page.PageWrapper;
 import br.com.diego.brewer.model.Cliente;
-import br.com.diego.brewer.model.Estado;
 import br.com.diego.brewer.model.enums.TipoPessoa;
+import br.com.diego.brewer.service.ClienteService;
 import br.com.diego.brewer.service.EstadoService;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/clientes")

@@ -3,33 +3,31 @@ package br.com.diego.brewer.service.impl;
 import java.util.List;
 import java.util.Optional;
 
-import br.com.diego.brewer.controller.filter.CidadeFilter;
-import br.com.diego.brewer.controller.filter.ClienteFilter;
-import br.com.diego.brewer.controller.page.PaginacaoUtil;
-import br.com.diego.brewer.model.Cliente;
-import br.com.diego.brewer.service.impl.exception.CidadeJaCadastradaException;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import br.com.diego.brewer.model.Cidade;
-import br.com.diego.brewer.repository.CidadeRepository;
-import br.com.diego.brewer.service.CidadeService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import br.com.diego.brewer.controller.filter.CidadeFilter;
+import br.com.diego.brewer.controller.page.PaginacaoUtil;
+import br.com.diego.brewer.model.Cidade;
+import br.com.diego.brewer.repository.CidadeRepository;
+import br.com.diego.brewer.service.CidadeService;
+import br.com.diego.brewer.service.impl.exception.CidadeJaCadastradaException;
 
 @Service
+@SuppressWarnings({ "deprecation", "unchecked" })
 public class CidadeServiceImpl implements CidadeService {
 
 	@Autowired

@@ -64,3 +64,21 @@ INSERT INTO "PUBLIC"."cliente" VALUES
 (12, '18622608425', '', '', '', '', '', 'Larissa Rebeca da Paz', '(95) 98589-7931', 'FISICA', NULL),
 (13, '53150182611', '', '', '', '', '', 'Andreia Silvana Milena Campos', '(21) 3850-9410', 'FISICA', NULL),
 (14, '19116205000165', '', '', '', '', '', STRINGDECODE('M\u00e1rcia e Antonio Entulhos Ltda'), '(19) 2549-7346', 'JURIDICA', NULL);
+
+INSERT INTO "PUBLIC"."grupo" VALUES
+(1, 'Administrador'),
+(2, 'Vendedor');
+
+INSERT INTO "PUBLIC"."usuario" VALUES
+(1, TRUE, DATE '1986-12-11', 'diego@teste', 'Diego', '$2a$10$7uL2bSbv/IK4jlDiWv3xq.aKy/tlX.D4gQ00hi8RJLVW.rHEUd4fy');
+
+INSERT INTO "PUBLIC"."permissao" VALUES
+(1, 'ROLE_CADASTRAR_CIDADE'),
+(2, 'ROLE_CADASTRAR_USUARIO');
+
+INSERT INTO "PUBLIC"."grupo_permissao" VALUES
+(1, 1),
+(1, 2);
+
+INSERT INTO "PUBLIC"."usuario_grupo" VALUES
+(1, 1);

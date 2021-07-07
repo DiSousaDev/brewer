@@ -1,11 +1,10 @@
 package br.com.diego.brewer.service.impl;
 
-import br.com.diego.brewer.controller.filter.ClienteFilter;
-import br.com.diego.brewer.controller.page.PaginacaoUtil;
-import br.com.diego.brewer.model.Cliente;
-import br.com.diego.brewer.repository.ClienteRepository;
-import br.com.diego.brewer.service.ClienteService;
-import br.com.diego.brewer.service.impl.exception.CpfOuCnpjJaCadastradoException;
+import java.util.Optional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
@@ -20,11 +19,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.Optional;
+import br.com.diego.brewer.controller.filter.ClienteFilter;
+import br.com.diego.brewer.controller.page.PaginacaoUtil;
+import br.com.diego.brewer.model.Cliente;
+import br.com.diego.brewer.repository.ClienteRepository;
+import br.com.diego.brewer.service.ClienteService;
+import br.com.diego.brewer.service.impl.exception.CpfOuCnpjJaCadastradoException;
 
 @Service
+@SuppressWarnings({ "deprecation", "unchecked" })
 public class ClienteServiceImpl implements ClienteService {
 
 	@Autowired
@@ -59,6 +62,7 @@ public class ClienteServiceImpl implements ClienteService {
 	}
 
 	private Long totalRegistros(ClienteFilter clienteFilter) {
+		
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Cliente.class);
 		filtrarConsulta(clienteFilter, criteria);
 		criteria.setProjection(Projections.rowCount());

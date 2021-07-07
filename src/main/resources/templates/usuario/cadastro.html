@@ -7,8 +7,9 @@
 		layout:decorate="~{layout}">
 <head>
 <link rel="stylesheet" type="text/css" href="/css/vendors/bootstrap-switch.min.css" />
-	<meta charset="UTF-8" />
-	<title>Cadastro de Usuário</title>
+<link rel="stylesheet" type="text/css" href="/css/vendors/bootstrap-datepicker.standalone.css" />
+<meta charset="UTF-8" />
+<title>Cadastro de Usuário</title>
 </head>
 <body>
 	<section layout:fragment="conteudo">
@@ -47,12 +48,12 @@
 					</div>
 					<div class="col-lg-3 form-group">
 						<label for="dataNascimento">Data de Nascimento</label> 
-						<input id="dataNascimento" type="text" class="form-control" />
+			            <input type='text' class="form-control js-date" id="dataNascimento" th:field="*{dataNascimento}" autocomplete="off" />
 					</div>
 				</div>
 				
 				<div class="row">
-					<div class="col-sm-3 form-group" brewer:classforerror="senha">
+					<div class="col-sm-3 form-group" brewer:classforerror="senha" th:classappend="${usuario.novo} ? bw-required">
 						<label for="senha" class="control-label">Senha</label>
 						<input id="senha" type="password" class="form-control" th:field="*{senha}"/>
 					</div>
@@ -60,31 +61,31 @@
 						<label for="confirmaSenha" class="control-label">Confirmação de Senha</label>
 						<input id="confirmaSenha" type="password" class="form-control" th:field="*{confirmacaoSenha}"/>
 					</div>
-					<div class="col-sm-3 form-group">
-						<label class="control-label">Status</label> 
+					
+					<div class="form-group  col-sm-3">
+						<label class="control-label">Status</label>
 						<div>
-							<input id="status" type="checkbox" name="status" class="js-status"
-							data-size="small" data-off-color="danger" data-on-text="Ativo" data-off-text="Inativo">
+							<input type="checkbox" class="js-status" data-size="small" data-off-color="danger" 
+								data-on-text="Ativo" data-off-text="Inativo" th:field="*{ativo}"/>
 						</div>
 					</div>
+
 				</div>
-		
+						
 				<div class="row">
-					<div class="col-sm-6 form-group bw-required" brewer:classforerror="grupos">
+					<div class="form-group  col-sm-6  bw-required" brewer:classforerror="grupos">
 						<label class="control-label">Grupos</label> 
 						<div>
-							<div class="checkbox checkbox-inline">
-								<input id="administrador" type="checkbox"/>
-								<label for="administrador">Administrador</label>
-							</div>
-							<div class="checkbox checkbox-inline">
-								<input id="vendedor" type="checkbox"/>
-								<label for="vendedor">Vendedor</label>
-							</div>
+							<th:block th:each="grupo : ${grupos}">
+		  						<div class="checkbox  checkbox-inline"> 
+			    					<input type="checkbox" th:value="${grupo.codigo}" th:field="*{grupos}"/>
+			    					<label th:for="${#ids.prev('grupos')}" th:text="${grupo.nome}">Administrador</label>
+		    					</div>
+		    				</th:block>
 						</div>
 					</div>
 				</div>
-				
+								
 				<div class="form-group">
 					<button class="btn  btn-primary" type="submit">Salvar</button>
 				</div>
@@ -95,6 +96,8 @@
 	
 	<th:block layout:fragment="javascript-extra">
 		<script src="/js/vendors/bootstrap-switch.min.js"></script>
+		<script src="/js/vendors/bootstrap-datepicker.min.js"></script>
+		<script src="/js/vendors/bootstrap-datepicker.pt-BR.min.js"></script>
 		<script>
 			$('.js-status').bootstrapSwitch();
 		</script>	

@@ -2,12 +2,9 @@ package br.com.diego.brewer.controller;
 
 import java.util.List;
 
-import br.com.diego.brewer.controller.filter.CidadeFilter;
-import br.com.diego.brewer.controller.filter.ClienteFilter;
-import br.com.diego.brewer.controller.page.PageWrapper;
-import br.com.diego.brewer.model.Cliente;
-import br.com.diego.brewer.model.Estado;
-import br.com.diego.brewer.service.EstadoService;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -18,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,11 +22,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.diego.brewer.controller.filter.CidadeFilter;
+import br.com.diego.brewer.controller.page.PageWrapper;
 import br.com.diego.brewer.model.Cidade;
 import br.com.diego.brewer.service.CidadeService;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import br.com.diego.brewer.service.EstadoService;
 
 @Controller
 @RequestMapping("/cidades")

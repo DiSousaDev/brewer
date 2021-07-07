@@ -1,6 +1,9 @@
 package br.com.diego.brewer.model;
 
-import br.com.diego.brewer.model.validation.AtributoConfirmacao;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,11 +17,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
+import javax.validation.constraints.Size;
+
+import br.com.diego.brewer.model.validation.AtributoConfirmacao;
 
 @AtributoConfirmacao(atributo = "senha", atributoConfirmacao = "confirmacaoSenha", message="Senhas não conferem.")
 @Entity
@@ -44,10 +45,10 @@ public class Usuario implements Serializable {
 
     private Boolean ativo;
 
-    @Column(name = "data_nascimento")
+    @Column(name = "data_nascimento", columnDefinition = "DATE")
     private LocalDate dataNascimento;
 
-    @NotNull(message = "Selecione ao menos 1 grupo.")
+    @Size(min = 1, message = "Selecione ao menos 1 grupo.")
     @ManyToMany
     @JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "codigo_usuario"), inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))
     private List<Grupo> grupos;
@@ -92,15 +93,15 @@ public class Usuario implements Serializable {
         this.confirmacaoSenha = confirmacaoSenha;
     }
 
-    public Boolean getAtivo(){
-        return ativo;
-    }
+    public Boolean getAtivo() {
+		return ativo;
+	}
 
-    public void setAtivo(Boolean ativo){
-        this.ativo = ativo;
-    }
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
 
-    public LocalDate getDataNascimento(){
+	public LocalDate getDataNascimento(){
         return dataNascimento;
     }
 
@@ -111,7 +112,15 @@ public class Usuario implements Serializable {
     public List<Grupo> getGrupos(){
         return grupos;
     }
-
+    
+    public void setGrupos(List<Grupo> grupos) {
+		this.grupos = grupos;
+	}
+    
+    public boolean isNovo() {
+    	return codigo == null;
+    }
+    
     @Override
     public boolean equals(Object o){
         if (this == o)
