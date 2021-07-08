@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html 
-	lang="pt-BR" 
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html
+	lang="pt-BR"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8" />
 </head>
@@ -19,6 +18,9 @@
 				</ul>
 			</div>
 			<ul class="nav navbar-nav  navbar-right">
+				<li><p class="navbar-text" sec:authentication="principal.usuario.nome"></p>
+				</li>
+
 				<li><a th:href="@{/logout}"><em class="fa  fa-sign-out"></em></a></li>
 			</ul>
 		</div>

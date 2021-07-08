@@ -20,7 +20,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	private UsuarioRepository repository;
 	@Autowired
 	private EntityManager entitymanager;
-
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	@Override

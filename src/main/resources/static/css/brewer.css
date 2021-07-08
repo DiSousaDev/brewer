@@ -12,6 +12,10 @@
 	content: "*"
 }
 
+.bw-top {
+	margin-top: 0;
+}
+
 /*
 ######################
 # COMPONENTES

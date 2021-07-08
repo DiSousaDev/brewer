@@ -22,6 +22,8 @@
 	<![endif]-->
 </head>
 <body>
+<input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+<input type="hidden" name="_csrf_header" th:value="${_csrf.headerName}"/>
 
 	<div class="aw-layout-page">
 
@@ -32,7 +34,7 @@
 		<div th:replace="fragments/SideBar :: sidebar"></div>
 		
 		<!-- Corpo da página -->"
-		<section layout:fragment="conteudo" class="aw-layout-content  js-content"></section>
+		<section layout:fragment="conteudo" class="aw-layout-content  js-content bw-top"></section>
 	
 		<!-- Rodapé -->
 		<div th:replace="fragments/Footer :: footer"></div>
@@ -43,6 +45,8 @@
 	<script th:src="@{/layout/javascripts/algaworks.min.js}"></script>
 	<script th:src="@{/js/vendors/jquery.maskMoney.min.js}"></script>
 	<script th:src="@{/js/vendors/jquery.mask.min.js}"></script>
+	<script th:src="@{/js/vendors/bootstrap-datepicker.min.js}"></script>
+	<script th:src="@{/js/vendors/bootstrap-datepicker.pt-BR.min.js}"></script>
 	<script th:src="@{/js/brewer.js}"></script>
 	
 	<th:block layout:fragment="javascript-extra"></th:block>
