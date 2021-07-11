@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import br.com.diego.brewer.dto.CervejaDTO;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
@@ -58,6 +59,21 @@ public class CervejaServiceImpl implements CervejaService {
 	@Override
 	public List<Cerveja> buscarTodas() {
 		return repository.findAll();
+	}
+
+	@Override
+	public List<CervejaDTO> buscarPorSkuOuNome(String skuOuNome){
+		String jpql = "select new br.com.diego.brewer.dto.CervejaDTO(codigo, sku, nome, origem, valor, foto) "
+				+ "from Cerveja where lower(sku) like lower(:skuOuNome) or lower(nome) like lower(:skuOuNome)";
+		List<CervejaDTO> cervejasFiltradas = manager.createQuery(jpql, CervejaDTO.class)
+				.setParameter("skuOuNome", skuOuNome + "%")
+				.getResultList();
+		return cervejasFiltradas;
+	}
+
+	@Override
+	public Cerveja buscarPorCodigo(Long codigoCerveja){
+		return repository.findByCodigo(codigoCerveja);
 	}
 
 	@Override

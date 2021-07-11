@@ -1,5 +1,6 @@
 package br.com.diego.brewer.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -59,6 +60,11 @@ public class ClienteServiceImpl implements ClienteService {
 		criteria.createAlias("c.estado", "e", JoinType.LEFT_OUTER_JOIN);
 
 		return new PageImpl<>(criteria.list(), pageable, totalRegistros(clienteFilter));
+	}
+
+	@Override
+	public List<Cliente> buscarPorNome(String nome){
+		return repository.findByNomeStartingWithIgnoreCase(nome);
 	}
 
 	private Long totalRegistros(ClienteFilter clienteFilter) {

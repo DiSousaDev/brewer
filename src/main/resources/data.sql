@@ -71,7 +71,9 @@ INSERT INTO "PUBLIC"."grupo" VALUES
 
 INSERT INTO "PUBLIC"."usuario" VALUES
 (1, TRUE, DATE '1986-12-11', 'diego@teste', 'Diego', '$2a$10$7uL2bSbv/IK4jlDiWv3xq.aKy/tlX.D4gQ00hi8RJLVW.rHEUd4fy'),
-(2, TRUE, NULL, 'joao@teste', 'Cerveja Escura', '$2a$10$MXf6TOPZ2I9rWHROtUoLVOy8Ifu.yJMZpyI/FQF5onVoohxvRnzn6');
+(2, TRUE, NULL, 'joao@teste', 'Cerveja Escura', '$2a$10$MXf6TOPZ2I9rWHROtUoLVOy8Ifu.yJMZpyI/FQF5onVoohxvRnzn6'),
+(3, TRUE, DATE '2021-07-20', 'carlos@teste', 'Carlos Alberto', '$2a$10$ToEmiNw5fow9mM4daksoe.zt1SMZbv0UMwYRVUOnb9VPiz8KV3LpG'),
+(4, FALSE, DATE '2021-07-12', 'ruty@teste', 'Ruty', '$2a$10$9UEXnV7kqetN5bRYcN0m/.p15SlEFlPYfa37OBAnHLutPYBAr2EIO');
 
 INSERT INTO "PUBLIC"."permissao" VALUES
 (1, 'ROLE_CADASTRAR_CIDADE'),
@@ -83,4 +85,7 @@ INSERT INTO "PUBLIC"."grupo_permissao" VALUES
 
 INSERT INTO "PUBLIC"."usuario_grupo" VALUES
 (1, 1),
-(2, 2);
+(2, 2),
+(3, 1),
+(3, 2),
+(4, 1);

@@ -5,6 +5,7 @@ import br.com.diego.brewer.thymeleaf.processor.ClassForMessageElementTagProcesso
 import br.com.diego.brewer.thymeleaf.processor.ClassForOrderElementTagProcessor;
 import br.com.diego.brewer.thymeleaf.processor.ClassForPaginationElementTagProcessor;
 
+import br.com.diego.brewer.thymeleaf.processor.MenuAttributeTagProcessor;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.dialect.AbstractProcessorDialect;
 import org.thymeleaf.processor.IProcessor;
@@ -27,6 +28,7 @@ public class BrewerDialect extends AbstractProcessorDialect {
         processadores.add(new ClassForMessageElementTagProcessor(dialectPrefix));
         processadores.add(new ClassForOrderElementTagProcessor(dialectPrefix));
         processadores.add(new ClassForPaginationElementTagProcessor(dialectPrefix));
+        processadores.add(new MenuAttributeTagProcessor(dialectPrefix));
         return processadores;
     }
 

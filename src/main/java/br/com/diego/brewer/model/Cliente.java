@@ -4,6 +4,7 @@ import br.com.diego.brewer.model.enums.TipoPessoa;
 import br.com.diego.brewer.model.validation.ClienteGroupSequenceProvider;
 import br.com.diego.brewer.model.validation.group.CnpjGroup;
 import br.com.diego.brewer.model.validation.group.CpfGroup;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.constraints.br.CPF;
 import org.hibernate.validator.group.GroupSequenceProvider;
@@ -47,6 +48,8 @@ public class Cliente implements Serializable {
 	@Column(name = "tipo_pessoa")
 	@Enumerated(EnumType.STRING)
 	private TipoPessoa tipoPessoa;
+
+	@JsonIgnore
 	@Embedded
 	private Endereco endereco;
 	private String telefone;

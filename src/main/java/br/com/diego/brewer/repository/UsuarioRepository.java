@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Query("select distinct p.nome from Usuario u inner join u.grupos g inner join g.permissoes p where u = :usuario")
     List<String> permissoes(@Param("usuario") Usuario usuario);
 
+    List<Usuario> findByCodigoIn(Collection<Long> codigo);
 }
 
 

@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
@@ -20,10 +21,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import br.com.diego.brewer.model.validation.AtributoConfirmacao;
+import org.hibernate.annotations.DynamicUpdate;
 
 @AtributoConfirmacao(atributo = "senha", atributoConfirmacao = "confirmacaoSenha", message="Senhas não conferem.")
 @Entity
 @Table(name = "usuario")
+@DynamicUpdate
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -52,6 +55,11 @@ public class Usuario implements Serializable {
     @ManyToMany
     @JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "codigo_usuario"), inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))
     private List<Grupo> grupos;
+
+    @PreUpdate
+    private void preUpdate() {
+        this.confirmacaoSenha = senha;
+    }
 
     public Long getCodigo(){
         return codigo;
@@ -119,6 +127,10 @@ public class Usuario implements Serializable {
     
     public boolean isNovo() {
     	return codigo == null;
+    }
+
+    public String verificaStatus() {
+        return ativo ? "Ativo" : "Inativo";
     }
     
     @Override

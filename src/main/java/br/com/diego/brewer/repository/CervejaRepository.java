@@ -12,4 +12,6 @@ public interface CervejaRepository extends JpaRepository<Cerveja, Long> {
 	
 	Optional<Cerveja> findBySku(String sku);
 
+	Cerveja findByCodigo(Long codigo);
+
 }
