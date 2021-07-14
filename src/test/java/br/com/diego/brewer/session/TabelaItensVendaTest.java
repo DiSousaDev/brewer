@@ -8,6 +8,7 @@ import org.junit.Test;
 
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class TabelaItensVendaTest {
 
@@ -15,7 +16,7 @@ public class TabelaItensVendaTest {
 
     @Before
     public void setUp() {
-        this.tabelaItensVenda = new TabelaItensVenda();
+        this.tabelaItensVenda = new TabelaItensVenda("1");
     }
 
     @Test

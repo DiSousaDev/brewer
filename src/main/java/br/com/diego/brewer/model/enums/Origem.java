@@ -7,7 +7,7 @@ public enum Origem {
 	
 	private String descricao;
 	
-	private Origem(String descricao) {
+	Origem(String descricao) {
 		this.descricao = descricao;
 	}
 	
