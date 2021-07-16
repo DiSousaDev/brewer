@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html 
-	lang="pt-BR" 
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html
+		lang="pt-BR"
+		xmlns:th="http://www.thymeleaf.org"
+		xmlns:brewer="http://www.w3.org/1999/xhtml">
 <head>
 	<meta charset="UTF-8" />
 </head>
@@ -23,12 +23,17 @@
 							</a>
 
 							<ul class="aw-menu__list  aw-menu__list--sublist">
-								<li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/vendas}">
+								<li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/vendas/cadastrar}">
 									<a th:href="@{/vendas/cadastrar}">Nova Venda</a>
 								</li>
 							</ul>
-						</li>
 
+							<ul class="aw-menu__list  aw-menu__list--sublist">
+								<li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/vendas}">
+									<a th:href="@{/vendas}">Pesquisar Vendas</a>
+								</li>
+							</ul>
+						</li>
 
 						<li class="aw-menu__item">
 							<a href="#"> 
@@ -37,10 +42,10 @@
 							</a>
 
 							<ul class="aw-menu__list  aw-menu__list--sublist">
-								<li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/estilos}">
+								<li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/estilos.*}">
 									<a th:href="@{/estilos}">Estilos</a>
 								</li>
-								<li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/cervejas}">
+								<li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/cervejas.*}">
 									<a th:href="@{cervejas}">Cervejas</a>
 								</li>
 							</ul>
@@ -53,13 +58,13 @@
 							</a>
 
 							<ul class="aw-menu__list  aw-menu__list--sublist">
-								<li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/cidades}">
+								<li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/cidades.*}">
 									<a th:href="@{/cidades}">Cidades</a>
 								</li>
-								<li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/clientes}">
+								<li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/clientes.*}">
 									<a th:href="@{/clientes}">Clientes</a>
 								</li>
-								<li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/usuarios}">
+								<li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/usuarios.*}">
 									<a th:href="@{/usuarios}">Usuários</a>
 								</li>
 							</ul>

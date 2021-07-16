@@ -50,7 +50,7 @@ INSERT INTO cidade (nome, codigo_estado) VALUES ('Campinas', 6);
 INSERT INTO cidade (nome, codigo_estado) VALUES ('Santos', 6);
 
 INSERT INTO "PUBLIC"."cliente" VALUES
-(1, '05496280966', '', '', '', '', '', 'Joao Silva', '', 'FISICA', NULL),
+(1, '05496280966', 'me@diego.dev.br', '', '', '', '', 'Joao Silva', '', 'FISICA', NULL),
 (2, '05720076980', 'diegosous@gmail.com', '83.407-730', 'Apto 21', 'Rua Ailton Luiz Nodari', '157', STRINGDECODE('\u00c9der Diego de Sousa'), '(41) 99820-3155', 'FISICA', 17),
 (3, '05881460000190', 'agne@agnemoveis.com.br', '83.404-000', 'Fundos', STRINGDECODE('Avenida S\u00e3o Gabriel'), '272', 'Agne Moveis', '(41) 3621-9846', 'JURIDICA', 9),
 (4, '81259250822', '', '', '', '', '', 'Malu Gabrielly Maria Viana', '', 'FISICA', NULL),
@@ -89,3 +89,20 @@ INSERT INTO "PUBLIC"."usuario_grupo" VALUES
 (3, 1),
 (3, 2),
 (4, 1);
+
+INSERT INTO "PUBLIC"."venda" VALUES
+(1, DATE '2021-07-14', TIMESTAMP '2021-07-14 22:34:00', 'Entregar na Portaria 2', 'EMITIDA', 2.00, 10.00, 27.11, 1, 1),
+(2, DATE '2021-07-14', NULL, '', 'ORCAMENTO', NULL, NULL, 800.00, 5, 1),
+(3, DATE '2021-07-14', NULL, '', 'ORCAMENTO', NULL, NULL, 24.10, 6, 1),
+(4, DATE '2021-07-14', NULL, '', 'ORCAMENTO', NULL, NULL, 8.00, 13, 1),
+(5, DATE '2021-07-14', NULL, '', 'ORCAMENTO', NULL, NULL, 4.99, 8, 1);
+
+INSERT INTO "PUBLIC"."item_venda" VALUES
+(1, 1, 11.11, 1, 1),
+(2, 1, 8.00, 2, 1),
+(3, 100, 8.00, 2, 2),
+(4, 1, 8.00, 2, 3),
+(5, 1, 11.11, 1, 3),
+(6, 1, 4.99, 3, 3),
+(7, 1, 8.00, 2, 4),
+(8, 1, 4.99, 3, 5);

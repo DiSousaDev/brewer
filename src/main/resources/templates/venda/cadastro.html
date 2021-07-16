@@ -16,15 +16,23 @@
   <div class="page-header">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-xs-10">
-          <h1>Cadastro de venda</h1>
-        </div>
+          <div class="col-xs-10">
+            <h1>Cadastro de Venda</h1>
+          </div>
+
+          <div class="col-xs-2">
+            <div class="aw-page-header-controls">
+              <a class="btn  btn-default" th:href="@{/vendas}">
+                <i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Pesquisar Vendas</span>
+              </a>
+            </div>
+          </div>
       </div>
     </div>
   </div>
 
   <div class="container-fluid">
-    <form method="POST" th:action="@{/vendas/cadastrar}" th:object="${venda}">
+    <form method="POST" class="js-formulario-principal" th:action="@{/vendas/cadastrar}" th:object="${venda}">
       <brewer:message/>
 
       <input type="hidden" id="uuid" th:field="*{uuid}">
@@ -146,14 +154,14 @@
       <div class="row" style="clear: both">
         <div class="col-lg-12">
           <div class="btn-group">
-            <button type="submit" class="btn  btn-primary">Salvar</button>
+            <button type="submit" class="btn  btn-primary js-submit-btn" data:acao="salvar">Salvar</button>
             <button type="button" class="btn  btn-primary  dropdown-toggle" data-toggle="dropdown">
               <span class="caret"></span>
             </button>
 
             <ul class="dropdown-menu">
-              <li><a href="#">Salvar e emitir</a></li>
-              <li><a href="#">Salvar e enviar por e-mail</a></li>
+              <li><a href="#" class="js-submit-btn" data:acao="emitir">Salvar e emitir</a></li>
+              <li><a href="#" class="js-submit-btn" data:acao="enviarEmail">Salvar e enviar por e-mail</a></li>
             </ul>
           </div>
 
@@ -175,6 +183,7 @@
   <script th:src="@{/js/venda.autocomplete-itens.js}"></script>
   <script th:src="@{/js/venda.tabela-itens.js}"></script>
   <script th:src="@{/js/venda.js}"></script>
+  <script th:src="@{/js/venda.botao-submit.js}"></script>
   <script>
     $(function() {
       $('.js-abas-venda a').click(function (e) {
