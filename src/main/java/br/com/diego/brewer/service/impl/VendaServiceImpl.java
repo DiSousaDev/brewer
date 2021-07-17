@@ -38,7 +38,7 @@ public class VendaServiceImpl implements VendaService {
 
 	@Override
 	@Transactional
-	public void salvar(Venda venda) {
+	public Venda salvar(Venda venda) {
 		if (venda.isNova()) {
 			venda.setDataCriacao(LocalDateTime.now());
 		}
@@ -47,7 +47,7 @@ public class VendaServiceImpl implements VendaService {
 			venda.setDataHoraEntrega(LocalDateTime.of(venda.getDataEntrega(), venda.getHorarioEntrega() != null ? venda.getHorarioEntrega() : LocalTime.now()));
 		}
 
-		repository.save(venda);
+		return repository.saveAndFlush(venda);
 	}
 
 	@Override

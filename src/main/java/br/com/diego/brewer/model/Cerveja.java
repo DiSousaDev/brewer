@@ -203,6 +203,10 @@ public class Cerveja implements Serializable {
 		return !ObjectUtils.isEmpty(foto) ? foto : "cerveja-mock.png";
 	}
 
+	public boolean temFoto() {
+		return !ObjectUtils.isEmpty(foto);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

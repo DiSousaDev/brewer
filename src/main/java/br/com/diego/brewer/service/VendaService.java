@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface VendaService {
 
-	void salvar(Venda venda);
+	Venda salvar(Venda venda);
 
     void emitir(Venda venda);
 

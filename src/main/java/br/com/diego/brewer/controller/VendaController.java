@@ -6,6 +6,7 @@ import br.com.diego.brewer.controller.page.PageWrapper;
 import br.com.diego.brewer.controller.validator.VendaValidator;
 import br.com.diego.brewer.mail.Mailer;
 import br.com.diego.brewer.model.Cerveja;
+import br.com.diego.brewer.model.ItemVenda;
 import br.com.diego.brewer.model.Venda;
 import br.com.diego.brewer.model.enums.StatusVenda;
 import br.com.diego.brewer.model.enums.TipoPessoa;
@@ -31,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -81,6 +83,7 @@ public class VendaController {
 		venda.setUsuario(usuarioSistema.getUsuario());
 
 		vendaService.salvar(venda);
+
 		attr.addFlashAttribute("mensagem", "Venda salva com sucesso!");
 		return new ModelAndView("redirect:/vendas/cadastrar");
 	}
@@ -101,18 +104,18 @@ public class VendaController {
 
 	@PostMapping(value="/cadastrar", params = "enviarEmail")
 	public ModelAndView enviarEmail(Venda venda, BindingResult result, RedirectAttributes attr, @AuthenticationPrincipal UsuarioSistema usuarioSistema) {
-//		validarVenda(venda, result);
-//		if(result.hasErrors()) {
-//			return abrirPagina(venda);
-//		}
-//
-//		venda.setUsuario(usuarioSistema.getUsuario());
-//
-//		vendaService.salvar(venda);
+		validarVenda(venda, result);
+		if(result.hasErrors()) {
+			return abrirPagina(venda);
+		}
+
+		venda.setUsuario(usuarioSistema.getUsuario());
+
+		venda = vendaService.salvar(venda);
 
 		mailer.enviar(venda);
 
-		attr.addFlashAttribute("mensagem", "Venda salva e e-mail enviado!");
+		attr.addFlashAttribute("mensagem", String.format("Venda nº %d salva com sucesso e e-mail enviado!", venda.getCodigo()));
 		return new ModelAndView("redirect:/vendas/cadastrar");
 	}
 
