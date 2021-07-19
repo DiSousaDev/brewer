@@ -20,4 +20,6 @@ public interface CervejaService {
 	List<CervejaDTO> buscarPorSkuOuNome(String skuOuNome);
 
     Cerveja buscarPorCodigo(Long codigoCerveja);
+
+    void excluir(Cerveja cerveja);
 }

@@ -17,7 +17,10 @@ public class PageWrapper<T> {
 
 	public PageWrapper(Page<T> page, HttpServletRequest httpServletRequest) {
 		this.page = page;
-		this.uriBuilder = ServletUriComponentsBuilder.fromRequest(httpServletRequest);
+		String httpUrl = httpServletRequest.getRequestURL().append(
+				httpServletRequest.getQueryString() != null ? "?" + httpServletRequest.getQueryString() : "")
+				.toString().replaceAll("\\+", "%20").replaceAll("excluido", "");
+		this.uriBuilder = UriComponentsBuilder.fromHttpUrl(httpUrl);
 	}
 
 	public List<T> getConteudo() {
@@ -51,9 +54,7 @@ public class PageWrapper<T> {
 	public String urlOrdenada(String propriedade) {
 		UriComponentsBuilder uriBuilderOrder = UriComponentsBuilder
 				.fromUriString(uriBuilder.build(true).encode().toUriString());
-		
 		String valorSort = String.format("%s,%s", propriedade, inverterDirecao(propriedade));
-		
 		return uriBuilderOrder.replaceQueryParam("sort", valorSort).build(true).encode().toUriString();
 	}
 	

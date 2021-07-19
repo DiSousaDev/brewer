@@ -1,12 +1,15 @@
 package br.com.diego.brewer.service.impl;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import br.com.diego.brewer.controller.filter.CervejaFilter;
+import br.com.diego.brewer.controller.page.PaginacaoUtil;
 import br.com.diego.brewer.dto.CervejaDTO;
+import br.com.diego.brewer.model.Cerveja;
+import br.com.diego.brewer.repository.CervejaRepository;
+import br.com.diego.brewer.service.CervejaService;
+import br.com.diego.brewer.service.event.CervejaSalvaEvent;
+import br.com.diego.brewer.service.impl.exception.ImpossivelExcluirEntidadeException;
+import br.com.diego.brewer.service.impl.exception.SkuCervejaJaCadastradoException;
+import br.com.diego.brewer.storage.FotoStorage;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
@@ -21,13 +24,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
-import br.com.diego.brewer.controller.filter.CervejaFilter;
-import br.com.diego.brewer.controller.page.PaginacaoUtil;
-import br.com.diego.brewer.model.Cerveja;
-import br.com.diego.brewer.repository.CervejaRepository;
-import br.com.diego.brewer.service.CervejaService;
-import br.com.diego.brewer.service.event.CervejaSalvaEvent;
-import br.com.diego.brewer.service.impl.exception.SkuCervejaJaCadastradoException;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @SuppressWarnings({ "deprecation", "unchecked" })
@@ -44,6 +46,9 @@ public class CervejaServiceImpl implements CervejaService {
 	
 	@Autowired
 	PaginacaoUtil paginacaoUtil;
+
+	@Autowired
+	private FotoStorage fotoStorage;
 
 	@Override
 	@Transactional(readOnly = false)
@@ -74,6 +79,21 @@ public class CervejaServiceImpl implements CervejaService {
 	@Override
 	public Cerveja buscarPorCodigo(Long codigoCerveja){
 		return repository.findByCodigo(codigoCerveja);
+	}
+
+	@Override
+	@Transactional
+	public void excluir(Cerveja cerveja){
+
+		try {
+			String foto = cerveja.getFoto();
+			repository.delete(cerveja);
+			repository.flush();
+			fotoStorage.excluir(foto);
+		} catch (Exception e){
+			throw new ImpossivelExcluirEntidadeException("Erro ao excluir, já existe registro associado.");
+		}
+
 	}
 
 	@Override

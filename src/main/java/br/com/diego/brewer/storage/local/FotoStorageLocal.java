@@ -76,7 +76,17 @@ public class FotoStorageLocal implements FotoStorage {
 			throw new RuntimeException("Erro ao ler foto.", e);
 		}
 	}
-	
+
+	@Override
+	public void excluir(String foto){
+		try {
+			Files.deleteIfExists(this.local.resolve(foto));
+			Files.deleteIfExists(this.local.resolve("thumbnail." + foto));
+		} catch (IOException e) {
+			LOG.warn(String.format("Erro ao excluir foto '%s'. Mensagem: %s", foto, e.getMessage()));
+		}
+	}
+
 
 	private void criarPastas() {
 		try {
