@@ -62,9 +62,9 @@ public class VendaController {
 	@RequestMapping("/cadastrar")
 	public ModelAndView abrirPagina(Venda venda) {
 		ModelAndView mv = new ModelAndView("venda/cadastro");
-		if(ObjectUtils.isEmpty(venda.getUuid())) {
-			venda.setUuid(UUID.randomUUID().toString());
-		}
+
+		setUuid(venda);
+
 		mv.addObject("itens", venda.getItens());
 		mv.addObject("valorFrete", venda.getValorFrete());
 		mv.addObject("valorDesconto", venda.getValorDesconto());
@@ -152,6 +152,20 @@ public class VendaController {
 		return mv;
 	}
 
+	@GetMapping("/{codigo}")
+	public ModelAndView editar(@PathVariable Long codigo) {
+		Venda venda = vendaService.buscarComItens(codigo);
+
+		setUuid(venda);
+		for(ItemVenda item : venda.getItens()) {
+			tabelaItens.adicionarItem(venda.getUuid(), item.getCerveja(), item.getQuantidade());
+		}
+
+		ModelAndView mv = abrirPagina(venda);
+		mv.addObject(venda);
+		return mv;
+	}
+
 	private ModelAndView mvTabelaItensVenda(String uuid){
 		ModelAndView mv = new ModelAndView("venda/TabelaItensVenda");
 		mv.addObject("itens", tabelaItens.getItens(uuid));
@@ -164,6 +178,12 @@ public class VendaController {
 		venda.calcularValorTotal();
 
 		vendaValidator.validate(venda, result);
+	}
+
+	private void setUuid(Venda venda) {
+		if(ObjectUtils.isEmpty(venda.getUuid())) {
+			venda.setUuid(UUID.randomUUID().toString());
+		}
 	}
 
 }

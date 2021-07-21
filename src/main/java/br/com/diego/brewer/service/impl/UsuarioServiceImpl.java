@@ -53,7 +53,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Usuario salvar(Usuario usuario) {
 		Optional<Usuario> usuarioOptional = repository.findByEmail(usuario.getEmail());
 		
-		if(usuarioOptional.isPresent()) {
+		if(usuarioOptional.isPresent() && !usuarioOptional.get().equals(usuario)) {
 			throw new EmailJaCadastradoException("E-mail já cadastrado.");
 		}
 		
@@ -61,12 +61,18 @@ public class UsuarioServiceImpl implements UsuarioService {
 			throw new SenhaObrigatoriaUsuarioException("Senha é obrigatória para novo usuário.");
 		}
 		
-		if(usuario.isNovo()) {
+		if(usuario.isNovo() || ObjectUtils.isEmpty(usuario.getSenha())) {
 			usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-			usuario.setConfirmacaoSenha(usuario.getSenha());
+		} else if (ObjectUtils.isEmpty(usuario.getSenha())) {
+			usuario.setSenha(usuarioOptional.get().getSenha());
 		}
-		
-		return repository.saveAndFlush(usuario);
+		usuario.setConfirmacaoSenha(usuario.getSenha());
+
+		if(!usuario.isNovo() && usuario.getAtivo() == null ){
+			usuario.setAtivo(usuarioOptional.get().getAtivo());
+		}
+
+		return repository.save(usuario);
 	}
 
 	@Override
@@ -93,6 +99,16 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public void alterarStatus(Long[] codigos, StatusUsuario statusUsuario){
 		statusUsuario.executar(codigos, repository);
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public Usuario buscarComGrupos(Long codigo) {
+		Criteria criteria = manager.unwrap(Session.class).createCriteria(Usuario.class);
+		criteria.createAlias("grupos", "g", JoinType.LEFT_OUTER_JOIN);
+		criteria.add(Restrictions.eq("codigo", codigo));
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return (Usuario) criteria.uniqueResult();
 	}
 
 	private Long totalRegistros(UsuarioFilter filtro) {

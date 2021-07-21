@@ -26,8 +26,6 @@ import org.springframework.util.ObjectUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,7 +52,7 @@ public class CervejaServiceImpl implements CervejaService {
 	@Transactional(readOnly = false)
 	public Cerveja salvar(Cerveja cerveja) {
 		Optional<Cerveja> cervejaOptional = repository.findBySku(cerveja.getSku());
-		if (cervejaOptional.isPresent()) {
+		if (cervejaOptional.isPresent() && !cervejaOptional.get().equals(cerveja)) {
 			throw new SkuCervejaJaCadastradoException("Sku já cadastrado.");
 		}
 		publisher.publishEvent(new CervejaSalvaEvent(cerveja));

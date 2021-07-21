@@ -12,4 +12,6 @@ public interface VendaService {
     void emitir(Venda venda);
 
     Page<Venda> filtrar(VendaFilter vendaFilter, Pageable pageable);
+
+    Venda buscarComItens(Long codigo);
 }

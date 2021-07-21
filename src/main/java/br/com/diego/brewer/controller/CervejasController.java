@@ -1,9 +1,13 @@
 package br.com.diego.brewer.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
+import br.com.diego.brewer.controller.filter.CervejaFilter;
+import br.com.diego.brewer.controller.page.PageWrapper;
 import br.com.diego.brewer.dto.CervejaDTO;
+import br.com.diego.brewer.model.Cerveja;
+import br.com.diego.brewer.model.enums.Origem;
+import br.com.diego.brewer.model.enums.Sabor;
+import br.com.diego.brewer.service.CervejaService;
+import br.com.diego.brewer.service.EstiloService;
 import br.com.diego.brewer.service.impl.exception.ImpossivelExcluirEntidadeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,14 +25,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.com.diego.brewer.controller.filter.CervejaFilter;
-import br.com.diego.brewer.controller.page.PageWrapper;
-import br.com.diego.brewer.model.Cerveja;
-import br.com.diego.brewer.model.enums.Origem;
-import br.com.diego.brewer.model.enums.Sabor;
-import br.com.diego.brewer.service.CervejaService;
-import br.com.diego.brewer.service.EstiloService;
-
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -46,11 +43,12 @@ public class CervejasController {
 	public ModelAndView abrirPagina(Cerveja cerveja) {
 		ModelAndView mv = new ModelAndView("cerveja/cadastro");
 		mv.addObject("estilos", estiloService.buscarTodos()); // Adicionando ao ModelAndView ou adicionando pelo
-																// @ModelAttribute funciona igual
+		mv.addObject("sabores", Sabor.values());			// @ModelAttribute funciona igual
+		mv.addObject("origens", Origem.values());
 		return mv;
 	}
 
-	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
+	@RequestMapping(value = { "/cadastrar", "{\\d+}" }, method = RequestMethod.POST)
 	public ModelAndView cadastrar(@Valid Cerveja cerveja, BindingResult result, RedirectAttributes attr) {
 
 		if (result.hasErrors()) {
@@ -58,8 +56,8 @@ public class CervejasController {
 		}
 
 		try {
+			exibirMensagem(cerveja, attr);
 			cervejaService.salvar(cerveja);
-			attr.addFlashAttribute("mensagem", "Cerveja adicionada com sucesso!");
 		} catch (Exception e) {
 			result.rejectValue("sku", e.getMessage(), e.getMessage());
 			return abrirPagina(cerveja);
@@ -93,14 +91,19 @@ public class CervejasController {
 		return ResponseEntity.ok().build();
 	}
 
-	@ModelAttribute("sabores")
-	public Sabor[] getSabores() {
-		return Sabor.values();
+	@GetMapping("/{codigo}")
+	public ModelAndView editar(@PathVariable("codigo") Cerveja cerveja) {
+		ModelAndView mv = abrirPagina(cerveja);
+		mv.addObject(cerveja);
+		return mv;
 	}
 
-	@ModelAttribute("origens")
-	public Origem[] getOrigens() {
-		return Origem.values();
+	private void exibirMensagem(Cerveja cerveja, RedirectAttributes attr) {
+		if(cerveja.isNova()) {
+			attr.addFlashAttribute("mensagem", "Cerveja adicionada com sucesso!");
+		} else {
+			attr.addFlashAttribute("mensagem", "Cerveja alterada com sucesso!");
+		}
 	}
 
 }

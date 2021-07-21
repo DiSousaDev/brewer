@@ -19,5 +19,9 @@ public class CervejaSalvaEvent {
 	public boolean temFoto() {
 		return !ObjectUtils.isEmpty(cerveja.getFoto());
 	}
+
+	public boolean isNovaFoto() {
+		return cerveja.isNovaFoto();
+	}
 	
 }

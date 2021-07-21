@@ -17,4 +17,6 @@ public interface UsuarioService {
     List<Usuario> buscarTodos();
 
     void alterarStatus(Long[] codigos, StatusUsuario statusUsuario);
+
+    Usuario buscarComGrupos(Long codigo);
 }
