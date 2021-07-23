@@ -14,4 +14,6 @@ public interface VendaService {
     Page<Venda> filtrar(VendaFilter vendaFilter, Pageable pageable);
 
     Venda buscarComItens(Long codigo);
+
+    void cancelar(Venda venda);
 }

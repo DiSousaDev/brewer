@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -39,6 +40,10 @@ public class VendaServiceImpl implements VendaService {
 	@Override
 	@Transactional
 	public Venda salvar(Venda venda) {
+		if(venda.isSalvarProibido()) {
+			throw new RuntimeException("Usuário tentando salvar uma venda probida.");
+		}
+
 		if (venda.isNova()) {
 			venda.setDataCriacao(LocalDateTime.now());
 		} else {
@@ -78,6 +83,15 @@ public class VendaServiceImpl implements VendaService {
 		criteria.add(Restrictions.eq("codigo", codigo));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return (Venda) criteria.uniqueResult();
+	}
+
+	@PreAuthorize("#venda.usuario == principal.usuario or hasRole('CANCELAR_VENDA')")
+	@Transactional
+	@Override
+	public void cancelar(Venda venda) {
+		Venda vendaExistente = repository.getById(venda.getCodigo());
+		vendaExistente.setStatus(StatusVenda.CANCELADA);
+		repository.save(vendaExistente);
 	}
 
 	private Long total(VendaFilter filtro) {

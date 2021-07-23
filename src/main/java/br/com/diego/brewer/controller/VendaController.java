@@ -16,6 +16,7 @@ import br.com.diego.brewer.session.TabelaItensSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
@@ -164,6 +165,19 @@ public class VendaController {
 		ModelAndView mv = abrirPagina(venda);
 		mv.addObject(venda);
 		return mv;
+	}
+
+	@PostMapping(value="/cadastrar", params = "cancelar")
+	public ModelAndView cancelar(Venda venda, BindingResult result, RedirectAttributes attr, @AuthenticationPrincipal UsuarioSistema usuarioSistema) {
+
+		try {
+			vendaService.cancelar(venda);
+		} catch (AccessDeniedException e) {
+			return new ModelAndView("/403");
+		}
+
+		attr.addFlashAttribute("mensagenm", "Venda cancelada com sucesso!");
+		return new ModelAndView("redirect:/vendas/" + venda.getCodigo());
 	}
 
 	private ModelAndView mvTabelaItensVenda(String uuid){

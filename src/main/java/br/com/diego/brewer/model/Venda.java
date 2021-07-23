@@ -1,6 +1,7 @@
 package br.com.diego.brewer.model;
 
 import br.com.diego.brewer.model.enums.StatusVenda;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.CascadeType;
@@ -29,6 +30,7 @@ import java.util.Optional;
 
 @Entity
 @Table(name = "venda")
+@DynamicUpdate
 public class Venda implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -193,6 +195,14 @@ public class Venda implements Serializable {
 
     public boolean isNova() {
         return codigo == null;
+    }
+
+    public boolean isSalvarPermitido() {
+        return !status.equals(StatusVenda.CANCELADA);
+    }
+
+    public boolean isSalvarProibido() {
+        return !isSalvarPermitido();
     }
 
     public void adicionarItens(List<ItemVenda> itens) {

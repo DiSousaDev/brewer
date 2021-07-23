@@ -77,11 +77,13 @@ INSERT INTO "PUBLIC"."usuario" VALUES
 
 INSERT INTO "PUBLIC"."permissao" VALUES
 (1, 'ROLE_CADASTRAR_CIDADE'),
-(2, 'ROLE_CADASTRAR_USUARIO');
+(2, 'ROLE_CADASTRAR_USUARIO'),
+(3, 'ROLE_CANCELAR_VENDA');          ;
 
 INSERT INTO "PUBLIC"."grupo_permissao" VALUES
 (1, 1),
-(1, 2);
+(1, 2),
+(1, 3);
 
 INSERT INTO "PUBLIC"."usuario_grupo" VALUES
 (1, 1),
