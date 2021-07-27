@@ -1,11 +1,14 @@
 package br.com.diego.brewer.service.impl;
 
+import java.math.BigDecimal;
+import java.time.Year;
 import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import br.com.diego.brewer.model.enums.StatusVenda;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
@@ -65,6 +68,11 @@ public class ClienteServiceImpl implements ClienteService {
 	@Override
 	public List<Cliente> buscarPorNome(String nome){
 		return repository.findByNomeStartingWithIgnoreCase(nome);
+	}
+
+	@Override
+	public Long quantidadeTotalDeCliente(){
+		return repository.count();
 	}
 
 	private Long totalRegistros(ClienteFilter clienteFilter) {

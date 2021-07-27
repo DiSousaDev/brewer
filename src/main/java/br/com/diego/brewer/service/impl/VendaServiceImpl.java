@@ -24,8 +24,12 @@ import org.springframework.util.ObjectUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.MonthDay;
+import java.time.Year;
+import java.util.Optional;
 
 @Service
 public class VendaServiceImpl implements VendaService {
@@ -92,6 +96,33 @@ public class VendaServiceImpl implements VendaService {
 		Venda vendaExistente = repository.getById(venda.getCodigo());
 		vendaExistente.setStatus(StatusVenda.CANCELADA);
 		repository.save(vendaExistente);
+	}
+
+	@Override
+	public BigDecimal valorTotalVendasAno(){
+		Optional<BigDecimal> vendaOptional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where year(dataCriacao) = :ano and status = :status", BigDecimal.class)
+			.setParameter("ano", Year.now().getValue())
+			.setParameter("status", StatusVenda.EMITIDA)
+			.getSingleResult());
+		return vendaOptional.orElse(BigDecimal.ZERO);
+	}
+
+	@Override
+	public BigDecimal valorTotalVendasMes(){
+		Optional<BigDecimal> vendaOptional = Optional.ofNullable(manager.createQuery("select sum(valorTotal) from Venda where month(dataCriacao) = :mes and status = :status", BigDecimal.class)
+				.setParameter("mes", MonthDay.now().getMonthValue())
+				.setParameter("status", StatusVenda.EMITIDA)
+				.getSingleResult());
+		return vendaOptional.orElse(BigDecimal.ZERO);
+	}
+
+	@Override
+	public BigDecimal valorTicketMedioAno(){
+		Optional<BigDecimal> vendaOptional = Optional.ofNullable(manager.createQuery("select sum(valorTotal)/count(*) from Venda where year(dataCriacao) = :ano and status = :status", BigDecimal.class)
+				.setParameter("ano", Year.now().getValue())
+				.setParameter("status", StatusVenda.EMITIDA)
+				.getSingleResult());
+		return vendaOptional.orElse(BigDecimal.ZERO);
 	}
 
 	private Long total(VendaFilter filtro) {
